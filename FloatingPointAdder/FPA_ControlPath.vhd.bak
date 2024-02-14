@@ -1,0 +1,25 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY FPA_ControlPath IS
+	PORT(
+	
+	);
+END FPA_ControlPath;
+
+ARCHITECTURE struct OF FPA_ControlPath IS
+
+	COMPONENT newDFF
+		PORT(	resetBar: IN STD_LOGIC;
+				d: IN STD_LOGIC;
+				i_enable: IN STD_LOGIC;
+				clock: IN STD_LOGIC;
+				q, qBar: OUT STD_LOGIC
+		);
+	END COMPONENT;
+
+BEGIN
+
+
+
+END struct;

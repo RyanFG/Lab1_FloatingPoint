@@ -1,0 +1,24 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY eightBitCLA IS 
+	PORT(
+	
+	);
+END eightBitCLA;
+
+ARCHITECTURE struct OF eightBitCLA IS
+
+	COMPONENT fourBitCLA
+		PORT(
+		
+		);
+	END COMPONENT;
+
+BEGIN
+
+	CLA1: fourBitCLA
+	
+	CLA2: fourBitCLA
+
+END struct;

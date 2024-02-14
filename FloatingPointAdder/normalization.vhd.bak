@@ -1,0 +1,41 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY normalization IS
+	PORT(
+		
+	);
+END normalization;
+
+ARCHITECTURE struct OF normalization IS
+	
+	COMPONENT eightBitLeftShiftRegister
+		PORT(
+			i_resetBar, i_load, i_shift: IN STD_LOGIC;
+			i_clock: IN STD_LOGIC;
+			i_value: IN STD_LOGIC;
+			in_values:IN STD_LOGIC_VECTOR(7 downto 0);
+			o_Value: OUT STD_LOGIC;
+			o_vector: OUT STD_LOGIC_VECTOR(7 downto 0)
+		);
+	END COMPONENT;
+	
+	COMPONENT eightBitCLA
+		PORT(
+			a,b: IN STD_LOGIC_VECTOR(7 downto 0);
+			addOrSub: IN STD_LOGIC;
+			carryIn: IN STD_LOGIC;
+			s: OUT STD_LOGIC_VECTOR(7 downto 0);
+			carryOut: OUT STD_LOGIC
+		);
+	END COMPONENT;
+	
+BEGIN
+	
+	resMant: eightBitLeftShiftRegister
+	
+	resExp: eightBitLeftShiftRegister
+	
+	add1: eightBitCLA
+	
+END struct;

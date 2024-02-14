@@ -1,0 +1,98 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY FPMultiplier IS
+	PORT(
+		reset,clk: IN STD_LOGIC;
+		mantAIn,mantBIn: IN STD_LOGIC_VECTOR(7 downto 0);
+		expAin,expBin: IN STD_LOGIC_VECTOR(6 downto 0);
+		signA,signB: IN STD_LOGIC;
+		
+		signO: STD_LOGIC;
+		mantOut: STD_LOGIC_VECTOR(7 downto 0);
+		expOut: STD_LOGIC_VECTOR(6 downto 0);
+		overflow: STD_LOGIC
+	);
+END FPMultiplier;
+
+ARCHITECTURE struct OF FPMultiplier IS
+SIGNAL loadAM,loadAE,loadBM,loadBE: STD_LOGIC;
+SIGNAL loadRE,loadRM,loadRS: STD_LOGIC;
+SIGNAL shiftRRM,shiftLRM: STD_LOGIC;
+SIGNAL greater127,lessN126: STD_LOGIC;
+
+	COMPONENT muliplierPath IS
+		port (
+        clk : in std_logic;
+        loadAM, loadBM, loadRM, ShiftLRM, ShiftRRMm, i_resetBar : in std_logic;
+        Fx, Fy : in std_logic_vector (7 downto 0);
+		  mantOut: OUT STD_LOGIC_VECTOR(7 downto 0);
+        Cout, greater127, lessN126 : out std_logic;
+        loadRE,loadAE,loadBE, SignA, SignB: in std_logic;
+		  Sign : OUT std_logic;
+        addsig,carryIn,s,carryOut : in std_logic;
+        Ex,Ey :in std_logic_vector (6 downto 0);
+		  oveflow: OUT STD_LOGIC;
+        o_RE : out std_logic_vector (6 downto 0) 
+    );
+	END COMPONENT;
+	
+	COMPONENT controlPath IS
+		PORT(
+			reset,clk: IN STD_LOGIC;
+			greater127,lessN126: IN STD_LOGIC;
+		
+			loadAM,loadAE,loadBM,loadBE: OUT STD_LOGIC;
+			loadRE,loadRM,loadRS: OUT STD_LOGIC;
+			shiftRRM,shiftLRM: OUT STD_LOGIC
+		);
+	END COMPONENT;
+
+BEGIN
+
+	muliplier: muliplierPath
+		PORT MAP(
+			  clk        => clk,
+			  loadAM     => loadAM,
+			  loadBM     => loadBM,
+			  loadRM     => loadRM,
+			  ShiftLRM   => ShiftLRM,
+			  ShiftRRMm  => ShiftRRMm,
+			  i_resetBar => not(reset),
+			  Fx         => mantAIn,
+			  Fy         => mantBIn,
+			  Numshift   => shiftexp,
+			  Cout       => Cout,
+			  greater127 => greater127,
+			  lessN126   => lessN126,
+			  mantOut	=> mantOut,
+			  loadRE   => loadRE,
+			  loadAE   => loadAE,
+			  loadBE   => loadBE,
+			  addsig   => addsig,
+			  carryIn  => carryIn,
+			  s        => s,
+			  carryOut => carryOut,
+			  Ex       => expAin,
+			  Ey       => expBin,
+			  Addexpby => shiftexp,
+			  iRE_eqZ	=> iRE_eqZ,
+			  o_RE     => o_RE,
+			  overflow => overflow,
+			  signA    => SignA,
+			  signB    => SignB,
+			  Sign => signO
+		);
+	
+	control: controlPath
+		PORT MAP(
+			reset => reset,clk => clk,
+			greater127 => greater127, lessN126 => lessN126,
+		
+			loadAM => loadAM,loadAE => loadAE, loadBM => loadBM, loadBE => loadBE,
+			loadRE => loadRE, loadRM => loadRM, loadRS => loadRS,
+			shiftRRM => shiftRRM, shiftLRM => shiftLRM
+	);
+	
+
+END struct;

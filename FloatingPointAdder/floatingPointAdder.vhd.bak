@@ -1,0 +1,37 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY floatingPointAdder IS
+	PORT(
+	
+	);
+END floatingPointAdder;
+
+ARCHITECTURE struct OF floatingPointAdder IS
+
+
+	COMPONENT FPA_Datapath
+		PORT(
+		
+		);
+	END COMPONENT;
+	
+	COMPONENT FPA_ControlPath
+		PORT(
+		
+		);
+	END COMPONENT;
+	
+BEGIN
+	
+	datapath: FPA_Datapath
+		PORT MAP(
+		
+		);
+	
+	controlPath: FPA_ControlPath
+		PORT MAP(
+		
+		);
+	
+END struct;

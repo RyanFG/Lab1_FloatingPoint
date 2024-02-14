@@ -1,0 +1,100 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity MultPath is
+    port (
+        clk : in std_logic;
+        rst : in std_logic;
+        loadAM, loadBM, loadRM, ShiftLRM, ShiftRRMm, i_resetBar : in std_logic;
+        Fx, Fy : in std_logic_vector (7 downto 0);
+        Cout, greater127, lessN126 : out std_logic;
+        loadRE,loadAE,loadBE, SignA, SignB, Sign : in std_logic;
+        addsig,carryIn,s,carryOut : in std_logic;
+        Ex,Ey :in std_logic_vector (6 downto 0);
+        resetBar,load,clock  : in std_logic;
+        o_RE : out std_logic_vector (6 downto 0) 
+    );
+end MultPath;
+
+architecture rtl of MultPath is
+    signal shiftexp : std_LOGIC_VECTOR (2 downto 0);
+
+    component MantissaPath is
+        port (
+        clk : in std_logic;
+        rst : in std_logic;
+        loadAM, loadBM, loadRM, ShiftLRM, i_resetBar : in std_logic;
+        Fx, Fy : in std_logic_vector (7 downto 0);
+        Cout, greater127, lessN126, NumShift: out std_logic;
+		Res : out std_logic_vector (7 downto 0)
+    );
+    end component;
+
+    component exponentpath is
+        port (
+        clk : in std_logic;
+        rst : in std_logic;
+        loadRE,loadAE,loadBE : in std_logic;
+        addsig,carryIn,s,carryOut : in std_logic;
+        Ex,Ey :in std_logic_vector (6 downto 0);
+        Addexpby : in std_logic_vector (2 downto 0);
+        resetBar,load,clock  : in std_logic;
+        o_RE : out std_logic_vector (6 downto 0)        
+    );
+    end component;
+
+    component SignPath is
+        port (
+            a,b : in std_logic;
+            sign : out std_logic
+        );
+    end component;
+    
+
+begin
+mantissapath_inst: mantissapath_inst
+port map (
+  clk        => clk,
+  rst        => rst,
+  loadAM     => loadAM,
+  loadBM     => loadBM,
+  loadRM     => loadRM,
+  ShiftLRM   => ShiftLRM,
+  ShiftRRMm  => ShiftRRMm,
+  i_resetBar => i_resetBar,
+  Fx         => Fx,
+  Fy         => Fy,
+  Numshift   => shiftexp,
+  Cout       => Cout,
+  greater127 => greater127,
+  lessN126   => lessN126
+);
+
+exponentpath_inst: entity work.exponentpath
+port map (
+  clk      => clk,
+  rst      => rst,
+  loadRE   => loadRE,
+  loadAE   => loadAE,
+  loadBE   => loadBE,
+  addsig   => addsig,
+  carryIn  => carryIn,
+  s        => s,
+  carryOut => carryOut,
+  Ex       => Ex,
+  Ey       => Ey,
+  Addexpby => shiftexp,
+  resetBar => resetBar,
+  load     => load,
+  clock    => clock,
+  o_RE     => o_RE
+);
+
+signpath_inst: entity work.SignPath
+port map (
+  a    => SignA,
+  b    => SignB,
+  sign => sign
+);
+end architecture;

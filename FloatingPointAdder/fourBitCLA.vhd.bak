@@ -1,0 +1,22 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY fourBitCLA IS
+	PORT(
+	
+	);
+END fourBitCLA;
+
+ARCHITECTURE struct OF fourBitCLA IS
+
+	COMPONENT lookaheadCell
+		PORT(
+			
+		);
+	END COMPONENT;
+
+BEGIN
+
+
+
+END struct;

@@ -1,0 +1,42 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY eightBitComparator IS
+	PORT(	x,y: IN STD_LOGIC_VECTOR(6 downto 0);
+			eq: OUT STD_LOGIC;
+			xGreaterZero: OUT STD_LOGIC;
+			yGreaterZero: OUT STD_LOGIC
+	);
+END eightBitComparator;
+
+ARCHITECTURE struct OF eightBitComparator IS
+SIGNAL eq0to3,eq4to6: STD_LOGIC;
+
+	COMPONENT comparator
+		PORT(	x,y: IN STD_LOGIC_VECTOR(3 downto 0);
+			eq: OUT STD_LOGIC
+		);
+	END COMPONENT;
+	
+BEGIN
+
+	eq1: comparator
+		PORT MAP(
+			x <= x(3 downto 0),
+			y <= y(3 downto 0),
+			eq <= eq0to3
+		);
+		
+	eq2: comparator
+		PORT MAP(
+			x <= x(7 downto 4),
+			y <= y(7 downto 4),
+			eq <= eq4to7
+		);
+		
+	eq => (eq0to3)and(eq4to7);
+	
+	xGreaterZero => (not(x(1)))and((x(2))or(x(3))or(x(4))or(x(5))or(x(6))or(x(7)));
+	yGreaterZero => (not(y(1)))and((y(2))or(y(3))or(y(4))or(y(5))or(y(6))or(y(7)));
+
+END struct;

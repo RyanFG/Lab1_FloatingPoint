@@ -1,0 +1,52 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY exponentDatapath IS
+	PORT(
+	
+	);
+END exponentDatapath;
+
+ARCHITECTURE struct OF exponentDatapath IS
+
+	COMPONENT eightBitRegister
+		PORT(	resetBar, load, clock: IN STD_LOGIC;
+				inValues: IN STD_LOGIC_VECTOR(7 downto 0);
+				outValues: OUT STD_LOGIC_VECTOR(7 downto 0)
+		);
+	END COMPONENT;
+	
+	COMPONENT eightBitComparator
+		PORT(
+		
+		);
+	END COMPONENT;
+	
+	COMPONENT eightBitCLA
+		PORT(
+		
+		);
+	END COMPONENT;
+	
+	COMPONENT sixteenToEightMUX
+		PORT(
+		
+		);
+	END COMPONENT;
+	
+
+BEGIN
+	
+	registerA: eightBitRegister
+	
+	registerB: eightBitRegister
+	
+	countReg: eightBitRegister
+	
+	diffReg: eightBitRegister
+	
+	adder: eightBitCLA
+	
+	greatZero: eightBitComparator
+	
+END struct;

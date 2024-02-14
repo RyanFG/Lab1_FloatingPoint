@@ -1,0 +1,30 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY FPA_Datapath IS
+	PORT(
+	
+	);
+END FPA_Datapath;
+
+ARCHITECTURE struct OF FPA_Datapath IS
+	
+	
+	COMPONENT exponentDatapath
+		PORT(
+		
+		);
+	END COMPONENT;
+	
+	COMPONENT mantissaDatapath
+		PORT(
+		
+		);
+	END COMPONENT;
+
+
+BEGIN
+	
+	
+	
+END struct;
